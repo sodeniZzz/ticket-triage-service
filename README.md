@@ -15,6 +15,7 @@
 
 This project is an end-to-end ticket triage service for customer support. Tickets are streamed via Kafka, scored in real time by an ML inference service (CatBoost priority prediction), stored in ClickHouse and visualized in a Streamlit analytics dashboard with dbt marts refreshed on a schedule by Airflow.
 
+<img width="1188" height="590" alt="one-pager" src="https://github.com/user-attachments/assets/a33bd1e5-f716-41ac-9562-d18ccd85cb5b" />
 
 ## Architecture
 
@@ -108,6 +109,8 @@ ticket-triage-service/
 │       ├── inference.py
 │       ├── io_utils.py
 │       └── preprocessing.py
+├── .gitignore
+├── .pre-commit-config.yaml
 ├── docker-compose.yml
 └── README.md
 ```
@@ -149,3 +152,11 @@ Each service writes logs. You can view them with:
 ```bash
 docker compose logs <service_name> # Example: scorer, ui, dbt...
 ```
+
+### UI screenshots
+
+<img width="1840" height="1106" alt="1ui" src="https://github.com/user-attachments/assets/b45cdfb1-579b-4115-9fc8-82f836657af6" />
+
+<img width="1840" height="1106" alt="2ui" src="https://github.com/user-attachments/assets/8e7597ac-e196-4180-9346-07214274dea5" />
+
+<img width="1840" height="1106" alt="3ui" src="https://github.com/user-attachments/assets/8ab8124e-4734-4a94-8125-4c380c7572a9" />
