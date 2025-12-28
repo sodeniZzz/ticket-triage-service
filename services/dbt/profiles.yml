@@ -1,0 +1,14 @@
+dbt:
+  target: dev
+  outputs:
+    dev:
+      type: clickhouse
+      host: clickhouse
+      port: 8123
+      user: default
+      password: ""
+      secure: False
+      verify: False
+      threads: 1
+      database: db_tickets
+      schema: db_tickets

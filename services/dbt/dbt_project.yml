@@ -1,0 +1,17 @@
+name: 'ticket_triage_dbt'
+version: '1.0.0'
+
+profile: 'dbt'
+
+model-paths: ["models"]
+
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  ticket_triage_dbt:
+    staging:
+      +materialized: view
+    marts:
+      +materialized: table

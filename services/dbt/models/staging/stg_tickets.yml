@@ -1,0 +1,92 @@
+version: 2
+
+models:
+  - name: stg_tickets
+    description: >
+      Staging model for scored customer support tickets.
+      Performs light standardization and derives helper flags is_days_known.
+
+    tests:
+      - dbt_expectations.expect_table_column_count_to_equal:
+          arguments:
+            value: 11
+
+    columns:
+      - name: ticket_id
+        description: Unique identifier of the ticket message flowing through the system.
+        tests:
+          - not_null
+          - unique
+
+      - name: predicted_priority
+        description: Predicted ticket priority (Low/Medium/High/Critical).
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ["Low", "Medium", "High", "Critical"]
+
+      - name: customer_age
+        description: Customer age in years.
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: 0
+                max_value: 150
+                strictly: false
+
+      - name: customer_gender
+        description: Customer gender.
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ["Male", "Female", "Other"]
+
+      - name: product_purchased
+        description: Product name associated with the support ticket.
+        tests:
+          - not_null
+
+      - name: ticket_type
+        description: Ticket category/type.
+        tests:
+          - not_null
+
+      - name: ticket_channel
+        description: Channel where the ticket was created.
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ["Email", "Phone", "Chat", "Social media"]
+
+      - name: ticket_status
+        description: Operational status of the ticket.
+        tests:
+          - not_null
+
+      - name: ticket_subject
+        description: Short topic of the ticket.
+        tests:
+          - not_null
+
+      - name: age_type
+        description: Age bucket feature.
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ["Young", "Middle", "Old"]
+
+      - name: days_from_purchase
+        description: >
+          Days between First Response Time and Date of Purchase.
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: -1
+                max_value: 50000
+                strictly: false

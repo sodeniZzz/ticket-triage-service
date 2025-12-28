@@ -1,0 +1,159 @@
+version: 2
+
+models:
+  - name: mart_age_type_priority
+    description: Ticket count by Age Type and predicted priority (stacked distribution).
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - group
+              - predicted_priority
+    columns:
+      - name: group
+        description: Age Type bucket (Young/Middle/Old).
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ["Young", "Middle", "Old"]
+      - name: predicted_priority
+        description: Model predicted ticket priority.
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ["Low", "Medium", "High", "Critical"]
+      - name: count
+        description: Number of tickets for the given Age Type and priority.
+
+
+  - name: mart_gender_priority
+    description: Ticket count by Customer Gender and predicted priority (stacked distribution).
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - group
+              - predicted_priority
+    columns:
+      - name: group
+        description: Customer gender category.
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ["Male", "Female", "Other"]
+      - name: predicted_priority
+        description: Model predicted ticket priority.
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ["Low", "Medium", "High", "Critical"]
+      - name: count
+        description: Number of tickets for the given gender and priority.
+
+  - name: mart_priority_distribution
+    description: Overall distribution of predicted ticket priorities.
+    columns:
+      - name: predicted_priority
+        description: Model predicted ticket priority.
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ["Low", "Medium", "High", "Critical"]
+      - name: tickets_count
+        description: Number of tickets with this predicted priority.
+
+  - name: mart_status_distribution
+    description: Overall distribution of ticket statuses.
+    columns:
+      - name: ticket_status
+        description: Ticket status from source data.
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ["Open", "Pending", "Closed"]
+      - name: tickets_count
+        description: Number of tickets with this status.
+
+  - name: mart_ticket_channel_distribution
+    description: Ticket distribution by channel (Email/Phone/Chat/Social media).
+    columns:
+      - name: ticket_channel
+        description: Ticket channel where the ticket was created.
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ["Email", "Phone", "Chat", "Social media"]
+      - name: tickets_count
+        description: Number of tickets for the given channel.
+
+  - name: mart_ticket_type_distribution
+    description: Ticket distribution by type (Billing inquiry, Product inquiry, Refund request, etc.).
+    columns:
+      - name: ticket_type
+        description: Ticket type.
+        tests:
+          - not_null
+      - name: tickets_count
+        description: Number of tickets for the given ticket type.
+
+  - name: mart_top_products_critical
+    description: Top products by сritical rate.
+    columns:
+      - name: product_purchased
+        description: Product that customer purchased.
+        tests:
+          - not_null
+      - name: tickets_count
+        description: Total number of tickets for the product.
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: 10
+                strictly: false
+      - name: critical_count
+        description: Number of tickets with predicted priority.
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: 0
+                strictly: false
+      - name: critical_rate
+        description: Critical_count / tickets_count for the product.
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: 0
+                max_value: 1
+                strictly: false
+
+  - name: mart_recent_open_tickets
+    description: Most recent tickets with open status.
+    columns:
+      - name: ticket_id
+        description: Unique ticket identifier.
+        tests:
+          - not_null
+      - name: ticket_status
+        description: Ticket status.
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ["Open"]
+      - name: predicted_priority
+        description: Model predicted ticket priority.
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ["Low", "Medium", "High", "Critical"]

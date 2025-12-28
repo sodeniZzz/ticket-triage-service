@@ -1,0 +1,50 @@
+version: 2
+
+sources:
+  - name: db_tickets
+    schema: db_tickets
+    tables:
+      - name: tickets
+        description: Raw scored support tickets ingested from Kafka into ClickHouse.
+        columns:
+          - name: ticket_id
+            description: Unique ticket identifier.
+            tests: [not_null, unique]
+
+          - name: predicted_priority
+            description: Predicted ticket priority (Low/Medium/High/Critical).
+            tests:
+              - not_null
+
+          - name: customer_age
+            description: Customer age.
+            tests:
+              - dbt_expectations.expect_column_values_to_be_between:
+                  arguments:
+                    min_value: 18
+                    max_value: 150
+                    strictly: false
+
+          - name: customer_gender
+            description: Customer gender.
+
+          - name: product_purchased
+            description: Product name.
+
+          - name: ticket_type
+            description: Ticket type.
+
+          - name: ticket_channel
+            description: Channel (email/phone/chat/social media).
+
+          - name: ticket_status
+            description: Status (Open/Closed/etc.).
+
+          - name: ticket_subject
+            description: Subject/title of the issue.
+
+          - name: age_type
+            description: Age bucket used by model features.
+
+          - name: days_from_purchase
+            description: Days between first response time and date of purchase.
