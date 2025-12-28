@@ -17,9 +17,9 @@ st.title("Ticket Triage Service")
 st.divider()
 st.markdown(
     """
-    1. **Upload** a CSV file with support tickets.  
-    2. Click **Send** to stream tickets.  
-    3. Open **Analytics** to view predicted priorities and statistics.  
+    1. **Upload** a CSV file with support tickets.
+    2. Click **Send** to stream tickets.
+    3. Open **Analytics** to view predicted priorities and statistics.
     """
 )
 

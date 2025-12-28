@@ -15,7 +15,6 @@ with DAG(
     schedule_interval=timedelta(seconds=4),
     catchup=False,
 ) as dag:
-
     dbt_run = BashOperator(
         task_id="dbt_run",
         bash_command="dbt run --profiles-dir /dbt --project-dir /dbt",

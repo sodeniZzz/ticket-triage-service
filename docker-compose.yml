@@ -48,7 +48,7 @@ services:
       echo 'Topics are ready:'
       kafka-topics --bootstrap-server kafka:9092 --list
       "
-    
+
   clickhouse:
     image: clickhouse/clickhouse-server:latest
     ports:
@@ -92,7 +92,7 @@ services:
         condition: service_started
     networks:
       - ticket-triage-service
-  
+
   airflow:
     build:
       context: .
@@ -108,7 +108,7 @@ services:
         condition: service_started
     networks:
       - ticket-triage-service
-    
+
   ui:
     build:
       context: .

@@ -115,35 +115,35 @@ ticket-triage-service/
 
 <h2 id="docker-way-to-quick-start">🐳 Docker-way to Quick Start</h2>
 
-### Prerequisites  
+### Prerequisites
 - Docker ≥ 20.10
 - Docker Compose ≥ v2
 - Disk space ~ 4 GB
 
-### Build & Run  
+### Build & Run
 
 ```bash
 docker compose up -d --build
-``` 
+```
 
-### Open interfaces  
+### Open interfaces
 
 - Streamlit UI → [http://localhost:8501](http://localhost:8501)
 
 
-### Workflow  
+### Workflow
 
-1. **Upload a CSV file** with support tickets through Streamlit UI.  
+1. **Upload a CSV file** with support tickets through Streamlit UI.
 
-2. **Click Send** to stream tickets.  
+2. **Click Send** to stream tickets.
 
-3. **Go to Analytics** to explore triage results:  
+3. **Go to Analytics** to explore triage results:
    - Total processed tickets
    - Priority / status / type / channel distributions
    - Top products by critical rate
    - Recent open tickets
 
-### Logs  
+### Logs
 
 Each service writes logs. You can view them with:
 ```bash
