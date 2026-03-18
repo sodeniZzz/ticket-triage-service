@@ -1,4 +1,4 @@
-# Fraud analytics with DBT
+# Ticket Triage Service
 
 <p align="center">
   <a href="#about">About</a> •
